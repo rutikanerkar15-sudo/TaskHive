@@ -1,0 +1,698 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Register Employee - TaskHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+            min-height: 100vh;
+
+            background: #f4f6f9;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px 15px;
+
+            color: #222;
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .register-container {
+            width: 100%;
+            max-width: 650px;
+        }
+
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+            text-align: center;
+
+            font-size: 32px;
+            font-weight: bold;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .register-card {
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.10);
+        }
+
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        .register-card h1 {
+            text-align: center;
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .subtitle {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        /* =========================
+           INPUTS
+        ========================= */
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        input:focus {
+
+            border-color: #222;
+
+            box-shadow:
+                0 0 0 2px rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* =========================
+           SELECT
+        ========================= */
+
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            background: white;
+
+            font-size: 15px;
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+
+        select:focus {
+
+            border-color: #222;
+        }
+
+
+        /* =========================
+           SKILLS
+        ========================= */
+
+        .skills-box {
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            padding: 15px;
+
+            background: #fafafa;
+        }
+
+
+        .skills-box label {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-right: 15px;
+
+            margin-bottom: 10px;
+
+            font-weight: normal;
+
+            cursor: pointer;
+        }
+
+
+        input[type="checkbox"] {
+
+            width: 16px;
+            height: 16px;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           WFH
+        ========================= */
+
+        .wfh-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 12px;
+
+            background: #f7f7f7;
+
+            border-radius: 7px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .wfh-box label {
+
+            margin: 0;
+
+            font-weight: normal;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+
+            background: #ffe8e8;
+
+            color: #c62828;
+
+            border: 1px solid #f5b5b5;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+
+        .field-error {
+
+            color: #c62828;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================
+           REGISTER BUTTON
+        ========================= */
+
+        .register-button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #222;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .register-button:hover {
+
+            background: #444;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           LOGIN LINK
+        ========================= */
+
+        .login-text {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #666;
+
+            font-size: 14px;
+        }
+
+
+        .login-text a {
+
+            color: #222;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+
+        .login-text a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           BACK LINK
+        ========================= */
+
+        .back-link {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #666;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        .back-link:hover {
+
+            color: #222;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 20px 10px;
+            }
+
+            .register-card {
+                padding: 25px;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            .register-card h1 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="register-container">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        🐝 TaskHive
+
+    </div>
+
+
+    <!-- REGISTER CARD -->
+
+    <div class="register-card">
+
+
+        <h1>
+            Create Employee Account
+        </h1>
+
+
+        <p class="subtitle">
+
+            Join your organization on TaskHive
+
+        </p>
+
+
+        <!-- FORM -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- FORM ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="error-message">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- FIRST NAME -->
+
+            <div class="form-group">
+
+                <label for="{{ form.first_name.id_for_label }}">
+                    First Name
+                </label>
+
+                {{ form.first_name }}
+
+                {% for error in form.first_name.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- LAST NAME -->
+
+            <div class="form-group">
+
+                <label for="{{ form.last_name.id_for_label }}">
+                    Last Name
+                </label>
+
+                {{ form.last_name }}
+
+                {% for error in form.last_name.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="{{ form.email.id_for_label }}">
+                    Email
+                </label>
+
+                {{ form.email }}
+
+                {% for error in form.email.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="{{ form.password.id_for_label }}">
+                    Password
+                </label>
+
+                {{ form.password }}
+
+                {% for error in form.password.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- DEPARTMENT -->
+
+            <div class="form-group">
+
+                <label for="{{ form.department.id_for_label }}">
+                    Department
+                </label>
+
+                {{ form.department }}
+
+                {% for error in form.department.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- ROLE -->
+
+            <div class="form-group">
+
+                <label for="{{ form.role.id_for_label }}">
+                    Role
+                </label>
+
+                {{ form.role }}
+
+                {% for error in form.role.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- SKILLS -->
+
+            <div class="form-group">
+
+                <label>
+                    Skills
+                </label>
+
+
+                <div class="skills-box">
+
+                    {{ form.skills }}
+
+                </div>
+
+
+                {% for error in form.skills.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- WORK FROM HOME -->
+
+            <div class="wfh-box">
+
+                {{ form.is_wfh }}
+
+                <label for="{{ form.is_wfh.id_for_label }}">
+
+                    Working From Home
+
+                </label>
+
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <button
+                type="submit"
+                class="register-button"
+            >
+
+                Create Account
+
+            </button>
+
+
+        </form>
+
+
+        <!-- LOGIN -->
+
+        <div class="login-text">
+
+            Already have an account?
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="back-link"
+    >
+
+        ← Back to Dashboard
+
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

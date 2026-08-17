@@ -1,0 +1,202 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications - TaskHive</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+        }
+
+        .notification-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            border-left: 5px solid #4f46e5;
+        }
+
+        .notification-message {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .notification-date {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .unread {
+            background: #eef2ff;
+        }
+
+        .no-notifications {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+            color: #777;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .back {
+            margin-top: 25px;
+        }
+
+        .back a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            🐝 TaskHive
+        </div>
+
+        <a href="{% url 'dashboard' %}" class="nav-link">
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>🔔 Notifications</h1>
+
+            <p>
+                Stay updated with your TaskHive activities.
+            </p>
+
+        </div>
+
+
+        {% if notifications %}
+
+            {% for notification in notifications %}
+
+                <div class="notification-card
+                    {% if not notification.is_read %}
+                        unread
+                    {% endif %}
+                ">
+
+                    <div class="notification-message">
+
+                        {{ notification.message }}
+
+                    </div>
+
+                    <div class="notification-date">
+
+                        {{ notification.created_at }}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-notifications">
+
+                <h3>🎉 No notifications</h3>
+
+                <p>
+                    You don't have any notifications right now.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="back">
+
+            <a href="{% url 'dashboard' %}">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

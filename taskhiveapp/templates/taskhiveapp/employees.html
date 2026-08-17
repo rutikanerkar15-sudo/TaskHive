@@ -1,0 +1,500 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employees - TaskHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            background: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .logout {
+            color: #dc2626 !important;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+        }
+
+        /* EMPLOYEE GRID */
+
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        /* EMPLOYEE CARD */
+
+        .employee-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* PROFILE */
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .employee-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .employee-email {
+            color: #777;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* DETAILS */
+
+        .details {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 15px;
+        }
+
+        .detail-label {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: #333;
+            text-align: right;
+        }
+
+        /* BADGES */
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .role {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .office {
+            background: #ecfdf5;
+            color: #15803d;
+        }
+
+        .wfh {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        /* SKILLS */
+
+        .skills-section {
+            margin-top: 18px;
+        }
+
+        .skills-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .skill {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin: 3px;
+        }
+
+        .no-skills {
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            background: white;
+            padding: 45px;
+            text-align: center;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .empty h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #777;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .employee-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            🐝 TaskHive
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>
+                👥 Employee Directory
+            </h1>
+
+            <p>
+                View employees, their roles, departments, skills, and work status.
+            </p>
+
+        </div>
+
+
+        {% if employees %}
+
+
+            <div class="employee-grid">
+
+
+                {% for employee in employees %}
+
+                    <div class="employee-card">
+
+
+                        <!-- PROFILE -->
+
+                        <div class="profile">
+
+                            <div class="avatar">
+
+                                {{ employee.user.first_name|first|upper }}
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="employee-name">
+
+                                    {{ employee.user.first_name }}
+                                    {{ employee.user.last_name }}
+
+                                </div>
+
+                                <div class="employee-email">
+
+                                    {{ employee.user.email }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DETAILS -->
+
+                        <div class="details">
+
+
+                            <div class="detail-row">
+
+                                <span class="detail-label">
+                                    Department
+                                </span>
+
+                                <span class="detail-value">
+                                    {{ employee.department }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span class="detail-label">
+                                    Role
+                                </span>
+
+                                <span class="detail-value">
+
+                                    <span class="badge role">
+
+                                        {{ employee.get_role_display }}
+
+                                    </span>
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="detail-row">
+
+                                <span class="detail-label">
+                                    Work Status
+                                </span>
+
+                                <span class="detail-value">
+
+                                    {% if employee.is_wfh %}
+
+                                        <span class="badge wfh">
+                                            🏠 Working From Home
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge office">
+                                            🏢 Office
+                                        </span>
+
+                                    {% endif %}
+
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- SKILLS -->
+
+                        <div class="skills-section">
+
+                            <div class="skills-title">
+                                🧠 Skills
+                            </div>
+
+
+                            {% for skill in employee.skills.all %}
+
+                                <span class="skill">
+                                    {{ skill.name }}
+                                </span>
+
+                            {% empty %}
+
+                                <span class="no-skills">
+                                    No skills added.
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                    </div>
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="empty">
+
+                <h2>
+                    👤 No Employees Found
+                </h2>
+
+                <p>
+                    There are currently no employees registered in TaskHive.
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            <a href="{% url 'dashboard' %}">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

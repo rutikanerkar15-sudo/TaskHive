@@ -1,0 +1,688 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Task - TaskHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body {
+            min-height: 100vh;
+
+            background: #f4f6f9;
+
+            color: #222;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: white;
+
+            padding: 18px 30px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        .logo {
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+            display: flex;
+
+            gap: 20px;
+        }
+
+
+        .nav-links a {
+            text-decoration: none;
+
+            color: #333;
+
+            font-weight: 500;
+        }
+
+
+        .logout {
+            color: #d00 !important;
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 100%;
+
+            max-width: 800px;
+
+            margin: auto;
+
+            padding: 35px 20px;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+
+        .page-header h1 {
+            font-size: 30px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .page-header p {
+            color: #777;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .task-card {
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+
+        input[type="text"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            background: white;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        textarea {
+            resize: vertical;
+        }
+
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+
+            border-color: #222;
+
+            box-shadow:
+                0 0 0 2px rgba(0, 0, 0, 0.05);
+        }
+
+
+        /* =========================
+           REQUIRED SKILLS
+        ========================= */
+
+        .skills-box {
+
+            border: 1px solid #ddd;
+
+            background: #fafafa;
+
+            border-radius: 8px;
+
+            padding: 15px;
+        }
+
+
+        .skills-box ul {
+
+            list-style: none;
+
+            padding: 0;
+
+            margin: 0;
+        }
+
+
+        .skills-box li {
+
+            margin-bottom: 10px;
+        }
+
+
+        .skills-box label {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            font-weight: normal;
+
+            cursor: pointer;
+        }
+
+
+        .skills-box input[type="checkbox"] {
+
+            width: 17px;
+
+            height: 17px;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           PRIORITY
+        ========================= */
+
+        .priority-box {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .priority-option {
+
+            border: 1px solid #ddd;
+
+            border-radius: 7px;
+
+            padding: 12px;
+
+            text-align: center;
+
+            background: #fafafa;
+
+            cursor: pointer;
+        }
+
+
+        .priority-option:hover {
+
+            background: #eee;
+        }
+
+
+        /* =========================
+           ERRORS
+        ========================= */
+
+        .error-message {
+
+            background: #ffe8e8;
+
+            color: #c62828;
+
+            border: 1px solid #f5b5b5;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .field-error {
+
+            color: #c62828;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-row {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 30px;
+        }
+
+
+        .create-button {
+
+            flex: 1;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #222;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .create-button:hover {
+
+            background: #444;
+
+            transform: translateY(-1px);
+        }
+
+
+        .cancel-button {
+
+            padding: 13px 20px;
+
+            border-radius: 7px;
+
+            border: 1px solid #ccc;
+
+            background: white;
+
+            color: #333;
+
+            text-decoration: none;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .cancel-button:hover {
+
+            background: #f1f1f1;
+        }
+
+
+        /* =========================
+           BACK LINK
+        ========================= */
+
+        .back-link {
+
+            display: inline-block;
+
+            margin-top: 22px;
+
+            color: #666;
+
+            text-decoration: none;
+        }
+
+
+        .back-link:hover {
+
+            color: #222;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 25px 15px;
+            }
+
+            .task-card {
+                padding: 25px;
+            }
+
+            .priority-box {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="navbar">
+
+    <div class="logo">
+        🐝 TaskHive
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="{% url 'dashboard' %}">
+            Dashboard
+        </a>
+
+        <a href="{% url 'logout' %}"
+           class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container">
+
+
+    <div class="page-header">
+
+        <h1>
+            📋 Create New Task
+        </h1>
+
+        <p>
+            Create a task and specify the skills required to complete it.
+        </p>
+
+    </div>
+
+
+
+    <div class="task-card">
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- FORM ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="error-message">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label for="{{ form.title.id_for_label }}">
+                    Task Title
+                </label>
+
+                {{ form.title }}
+
+                {% for error in form.title.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="{{ form.description.id_for_label }}">
+                    Description
+                </label>
+
+                {{ form.description }}
+
+                {% for error in form.description.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- REQUIRED SKILLS -->
+
+            <div class="form-group">
+
+                <label>
+                    Required Skills
+                </label>
+
+
+                <div class="skills-box">
+
+                    {{ form.required_skills }}
+
+                </div>
+
+
+                {% for error in form.required_skills.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- PRIORITY -->
+
+            <div class="form-group">
+
+                <label for="{{ form.priority.id_for_label }}">
+                    Priority
+                </label>
+
+                {{ form.priority }}
+
+                {% for error in form.priority.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- DEADLINE -->
+
+            <div class="form-group">
+
+                <label for="{{ form.deadline.id_for_label }}">
+                    Deadline
+                </label>
+
+                {{ form.deadline }}
+
+                {% for error in form.deadline.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="cancel-button"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="create-button"
+                >
+                    Create Task
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="back-link"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manager Tasks - TaskHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <h1>Task Management</h1>
+
+    <p>
+        Manager Task Dashboard
+    </p>
+
+    <hr>
+
+    {% if tasks %}
+
+        {% for task in tasks %}
+
+            <h2>{{ task.title }}</h2>
+
+            <p>
+                <strong>Description:</strong>
+                {{ task.description }}
+            </p>
+
+            <p>
+                <strong>Priority:</strong>
+                {{ task.get_priority_display }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ task.get_status_display }}
+            </p>
+
+            <p>
+                <strong>Progress:</strong>
+                {{ task.progress }}%
+            </p>
+
+            {% if task.status == "completed" %}
+
+                <p>
+                    <strong>
+                        Employee has completed this task.
+                    </strong>
+                </p>
+
+                <a href="{% url 'verify_task' task.id %}">
+                    <button type="button">
+                        Verify Task
+                    </button>
+                </a>
+
+            {% elif task.status == "verified" %}
+
+                <p>
+                    <strong>
+                        ✓ Task Verified
+                    </strong>
+                </p>
+
+            {% endif %}
+
+            <p>
+                <strong>Deadline:</strong>
+                {{ task.deadline }}
+            </p>
+
+            <hr>
+
+            <h3>Assigned Employees</h3>
+
+            {% for assignment in task.assignments.all %}
+
+                <p>
+                    <strong>
+                        {{ assignment.employee.user.get_full_name }}
+                    </strong>
+                </p>
+
+                <p>
+                    Department:
+                    {{ assignment.employee.department }}
+                </p>
+
+                <p>
+                    Role:
+                    {{ assignment.employee.get_role_display }}
+                </p>
+
+                <p>
+                    Assignment Status:
+                    {% if assignment.accepted_at %}
+                        Accepted
+                    {% else %}
+                        Waiting for acceptance
+                    {% endif %}
+                </p>
+
+            {% empty %}
+
+                <p>
+                    No employee assigned yet.
+                </p>
+
+            {% endfor %}
+
+            <hr>
+
+            <h3>Employee Progress Updates</h3>
+
+            {% for update in task.updates.all %}
+
+                <p>
+                    <strong>
+                        Employee:
+                    </strong>
+
+                    {{ update.employee.user.get_full_name }}
+                </p>
+
+                <p>
+                    <strong>
+                        Progress:
+                    </strong>
+
+                    {{ update.progress }}%
+                </p>
+
+                {% if update.message %}
+
+                    <p>
+                        <strong>
+                            Message:
+                        </strong>
+
+                        {{ update.message }}
+                    </p>
+
+                {% endif %}
+
+                <p>
+                    <strong>
+                        Updated:
+                    </strong>
+
+                    {{ update.created_at }}
+                </p>
+
+                <hr>
+
+            {% empty %}
+
+                <p>
+                    No progress updates yet.
+                </p>
+
+            {% endfor %}
+
+            <br>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            No tasks created yet.
+        </p>
+
+    {% endif %}
+
+    <br>
+
+    <a href="{% url 'dashboard' %}">
+        Back to Dashboard
+    </a>
+
+</body>
+
+</html>
