@@ -1,0 +1,314 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TaskHive Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+
+    
+
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            🐝 TaskHive
+        </div>
+
+        <div>
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'employee_list' %}">
+                Employees
+            </a>
+
+            <a href="{% url 'my_tasks' %}">
+                My Tasks
+            </a>
+
+            {% if employee.role == "manager" %}
+
+                <a href="{% url 'create_task' %}">
+                    Create Task
+                </a>
+
+                <a href="{% url 'manager_tasks' %}">
+                    Manage Tasks
+                </a>
+
+            {% endif %}
+
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN CONTAINER
+    ========================== -->
+
+    <div class="container">
+
+        <!-- WELCOME -->
+
+        <div class="dashboard-header">
+
+            <h1>
+                Welcome,
+                {{ employee.user.first_name }}
+                {{ employee.user.last_name }} 👋
+            </h1>
+
+            <p>
+                Here is your TaskHive workspace.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             PROFILE + SKILLS
+        ========================== -->
+
+        <div class="card-container">
+
+            <!-- PROFILE -->
+
+            <div class="card">
+
+                <h2>👤 My Profile</h2>
+
+                <p>
+                    <strong>Name:</strong><br>
+
+                    {{ employee.user.first_name }}
+                    {{ employee.user.last_name }}
+                </p>
+
+                <p>
+                    <strong>Email:</strong><br>
+
+                    {{ employee.user.email }}
+                </p>
+
+                <p>
+                    <strong>Department:</strong><br>
+
+                    {{ employee.department }}
+                </p>
+
+                <p>
+                    <strong>Role:</strong><br>
+
+                    {{ employee.get_role_display }}
+                </p>
+
+            </div>
+
+
+            <!-- SKILLS -->
+
+            <div class="card">
+
+                <h2>🧠 My Skills</h2>
+
+                {% for skill in employee.skills.all %}
+
+                    <span class="skill">
+                        {{ skill.name }}
+                    </span>
+
+                {% empty %}
+
+                    <p>
+                        No skills added yet.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- WORK STATUS -->
+
+            <div class="card">
+
+                <h2>🏠 Work Status</h2>
+
+                {% if employee.is_wfh %}
+
+                    <p class="status">
+                        🏠 Working From Home
+                    </p>
+
+                {% else %}
+
+                    <p class="status">
+                        🏢 Working From Office
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ACCOUNT ROLE -->
+
+            <div class="card">
+
+                <h2>💼 Account Type</h2>
+
+                {% if employee.role == "manager" %}
+
+                    <p>
+                        You are registered as a
+                        <strong>Manager</strong>.
+                    </p>
+
+                    <a href="{% url 'create_task' %}"
+                       class="btn">
+                        Create New Task
+                    </a>
+
+                {% else %}
+
+                    <p>
+                        You are registered as an
+                        <strong>Employee</strong>.
+                    </p>
+
+                    <a href="{% url 'my_tasks' %}"
+                       class="btn">
+                        View My Tasks
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TASK SECTION
+        ========================== -->
+
+        <div class="card"
+             style="margin-top: 25px;">
+
+            <h2>📋 Task Management</h2>
+
+            {% if employee.role == "manager" %}
+
+                <p>
+                    Create tasks and let TaskHive identify
+                    suitable employees based on their skills.
+                </p>
+
+                <a href="{% url 'create_task' %}"
+                   class="btn">
+                    ➕ Create New Task
+                </a>
+
+                <a href="{% url 'manager_tasks' %}"
+                   class="btn btn-secondary">
+                    📊 Manage Tasks
+                </a>
+
+            {% else %}
+
+                <p>
+                    View your assigned tasks and update
+                    their progress.
+                </p>
+
+                <a href="{% url 'my_tasks' %}"
+                   class="btn">
+                    📋 View My Tasks
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             QUICK ACTIONS
+        ========================== -->
+
+        <div class="card"
+             style="margin-top: 25px;">
+
+            <h2>⚡ Quick Actions</h2>
+
+            <br>
+
+            <a href="{% url 'employee_list' %}"
+               class="btn">
+                👥 View Employees
+            </a>
+
+            {% if employee.role == "manager" %}
+
+                <a href="{% url 'create_task' %}"
+                   class="btn btn-success">
+                    ➕ Create Task
+                </a>
+
+                <a href="{% url 'manager_tasks' %}"
+                   class="btn">
+                    📊 Manager Tasks
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'my_tasks' %}"
+                   class="btn">
+                    📋 My Tasks
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <div class="footer">
+
+        <p>
+            © 2026 TaskHive | Smart Employee Task Management
+        </p>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Tasks - TaskHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            🐝 TaskHive
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="container">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>
+                📋 My Assigned Tasks
+            </h1>
+
+            <p>
+                Welcome,
+                <strong>
+                    {{ employee.user.first_name }}
+                    {{ employee.user.last_name }}
+                </strong>
+            </p>
+
+            <p>
+                Manage your assigned tasks and update your progress.
+            </p>
+
+        </div>
+
+
+        {% if assignments %}
+
+
+            <!-- TASKS -->
+
+            <div class="task-grid">
+
+                {% for assignment in assignments %}
+
+                    <div class="task-card">
+
+
+                        <!-- TITLE -->
+
+                        <h2>
+                            {{ assignment.task.title }}
+                        </h2>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <p class="description">
+                            {{ assignment.task.description }}
+                        </p>
+
+
+                        <!-- DETAILS -->
+
+                        <div class="details" style="margin-bottom: 18px;">
+
+                            {% if assignment.task.priority == "urgent" %}
+                                <span class="badge" style="background: rgba(193,102,107,0.14); color: var(--danger);">
+                                    Priority: {{ assignment.task.get_priority_display }}
+                                </span>
+                            {% elif assignment.task.priority == "high" %}
+                                <span class="badge wfh">
+                                    Priority: {{ assignment.task.get_priority_display }}
+                                </span>
+                            {% elif assignment.task.priority == "medium" %}
+                                <span class="badge role">
+                                    Priority: {{ assignment.task.get_priority_display }}
+                                </span>
+                            {% else %}
+                                <span class="badge office">
+                                    Priority: {{ assignment.task.get_priority_display }}
+                                </span>
+                            {% endif %}
+
+
+                            <span class="badge role">
+                                Status: {{ assignment.task.get_status_display }}
+                            </span>
+
+
+                            <p style="margin-top: 15px; color: var(--cream-dim);">
+
+                                <strong style="color: var(--cream);">
+                                    Deadline:
+                                </strong>
+
+                                {{ assignment.task.deadline }}
+
+                            </p>
+
+                        </div>
+
+
+                        <!-- PROGRESS -->
+
+                        <div class="progress-section" style="margin-top: 15px; margin-bottom: 20px;">
+
+                            <div class="progress-header" style="display: flex; justify-content: space-between; margin-bottom: 7px; font-size: 14px; font-weight: 700; color: var(--cream-dim);">
+
+                                <span>
+                                    Progress
+                                </span>
+
+                                <span>
+                                    {{ assignment.task.progress }}%
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress-container">
+
+                                <div
+                                    class="progress-bar"
+                                    style="width: {{ assignment.task.progress }}%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- TASK ACTIONS -->
+
+
+                        {% if assignment.task.status == "assigned" %}
+
+                            <form method="POST" action="{% url 'update_task_status' assignment.task.id 'accepted' %}" style="width: 100%;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn action-btn" style="width: 100%; margin-top: 10px;">
+                                    ✓ Accept Task
+                                </button>
+                            </form>
+
+
+                        {% elif assignment.task.status == "accepted" %}
+
+                            <form method="POST" action="{% url 'update_task_status' assignment.task.id 'in_progress' %}" style="width: 100%;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn action-btn" style="width: 100%; margin-top: 10px;">
+                                    ▶ Start Task
+                                </button>
+                            </form>
+
+
+                        {% elif assignment.task.status == "in_progress" %}
+
+                            <div class="in-progress">
+                                🔄 Task In Progress
+                            </div>
+
+                            <form method="POST" action="{% url 'update_task_status' assignment.task.id 'completed' %}" style="width: 100%;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn action-btn" style="width: 100%; margin-top: 10px;">
+                                    ✓ Mark Completed
+                                </button>
+                            </form>
+
+
+                        {% elif assignment.task.status == "completed" %}
+
+                            <div class="completed">
+                                ✓ Task Completed
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- NO TASKS -->
+
+            <div class="no-task">
+
+                <h2>
+                    📭 No Tasks Assigned
+                </h2>
+
+                <p>
+                    You don't have any tasks assigned to you yet.
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            <a href="{% url 'dashboard' %}">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

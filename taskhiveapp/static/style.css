@@ -1,0 +1,340 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+:root {
+    --bg: #1C1712;
+    --bg-panel: #241D16;
+    --bg-cell: #2B2118;
+    --honey: #E8A33D;
+    --honey-deep: #C97B2E;
+    --cream: #F5EDE0;
+    --cream-dim: #B8AC9A;
+    --done: #7A9B76;
+    --danger: #C1666B;
+    --wfh: #D6A24A;
+    --line: rgba(245, 237, 224, 0.12);
+}
+
+body {
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--cream);
+}
+
+a {
+    text-decoration: none;
+}
+
+h1, h2, h3, .logo {
+    font-family: 'Space Grotesk', Arial, sans-serif;
+}
+
+
+/* ================================
+   NAVBAR
+================================ */
+
+.navbar {
+    background: var(--bg-panel);
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--honey);
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: var(--cream-dim);
+    font-weight: 600;
+    font-size: 14px;
+    transition: color .15s ease;
+}
+
+.nav-links a:hover {
+    color: var(--honey);
+}
+
+.logout {
+    color: var(--danger) !important;
+}
+
+
+/* ================================
+   CONTAINER
+================================ */
+
+.container {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: var(--cream);
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--cream-dim);
+}
+
+
+/* ================================
+   CARDS
+================================ */
+
+.card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+    margin-bottom: 15px;
+    color: var(--cream);
+}
+
+
+/* ================================
+   GRID
+================================ */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+
+/* ================================
+   SKILLS
+================================ */
+
+.skill {
+    display: inline-block;
+    background: rgba(232, 163, 61, 0.12);
+    color: var(--honey);
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 13px;
+    margin: 3px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+
+/* ================================
+   BADGES
+================================ */
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12.5px;
+    font-weight: 700;
+    margin-right: 5px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.role {
+    background: rgba(232, 163, 61, 0.14);
+    color: var(--honey);
+}
+
+.office {
+    background: rgba(122, 155, 118, 0.16);
+    color: var(--done);
+}
+
+.wfh {
+    background: rgba(214, 162, 74, 0.16);
+    color: var(--wfh);
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.btn,
+.action-btn {
+    display: inline-block;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--honey);
+    color: #1C1712;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: transform .12s ease, background .15s ease;
+}
+
+.btn:hover,
+.action-btn:hover {
+    background: #f0ac48;
+    transform: translateY(-1px);
+}
+
+
+/* ================================
+   PROGRESS BAR
+================================ */
+
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background: var(--bg-cell);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--honey), var(--honey-deep));
+    border-radius: 10px;
+}
+
+
+/* ================================
+   TASK CARDS
+================================ */
+
+.task-grid,
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.task-card,
+.employee-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+}
+
+.task-card h2,
+.employee-card h2 {
+    margin-bottom: 10px;
+    color: var(--cream);
+}
+
+.description {
+    color: var(--cream-dim);
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+
+/* ================================
+   STATUS
+================================ */
+
+.status {
+    font-weight: 700;
+}
+
+.in-progress {
+    background: rgba(232, 163, 61, 0.14);
+    color: var(--honey);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.completed {
+    background: rgba(122, 155, 118, 0.16);
+    color: var(--done);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+}
+
+
+/* ================================
+   EMPTY STATES
+================================ */
+
+.no-task,
+.no-match,
+.empty {
+    background: var(--bg-panel);
+    border: 1px dashed var(--line);
+    padding: 40px;
+    text-align: center;
+    border-radius: 14px;
+}
+
+.no-task p,
+.no-match p,
+.empty p {
+    color: var(--cream-dim);
+    margin-top: 10px;
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+.footer {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.footer a {
+    color: var(--honey);
+    font-weight: 700;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+
+    .grid,
+    .task-grid,
+    .employee-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .nav-links {
+        gap: 10px;
+    }
+
+    .container {
+        margin-top: 25px;
+    }
+}

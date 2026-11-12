@@ -1,0 +1,388 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Task Matching - TaskHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+        }
+
+        .task-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            margin-bottom: 30px;
+        }
+
+        .task-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .task-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .matches-title {
+            margin-bottom: 15px;
+        }
+
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .employee-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            border-left: 5px solid #4f46e5;
+        }
+
+        .employee-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .employee-info {
+            color: #777;
+            margin-bottom: 18px;
+        }
+
+        .match-score {
+            margin-bottom: 15px;
+        }
+
+        .match-score strong {
+            font-size: 24px;
+            color: #4f46e5;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4f46e5;
+            border-radius: 10px;
+        }
+
+        .skills {
+            margin-top: 15px;
+        }
+
+        .skill {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 6px 10px;
+            border-radius: 15px;
+            margin: 3px;
+            font-size: 13px;
+        }
+
+        .assign-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .assign-btn:hover {
+            background: #3730a3;
+        }
+
+        .no-match {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            color: #777;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .employee-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            🐝 TaskHive
+        </div>
+
+        <a href="{% url 'dashboard' %}" class="nav-link">
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>🎯 Employee Matching</h1>
+
+            <p>
+                TaskHive found employees whose skills match this task.
+            </p>
+
+        </div>
+
+
+        <!-- TASK INFORMATION -->
+
+        <div class="task-card">
+
+            <h2>
+                {{ task.title }}
+            </h2>
+
+            <p class="task-description">
+                {{ task.description }}
+            </p>
+
+            <span class="badge">
+                Priority: {{ task.get_priority_display }}
+            </span>
+
+            <span class="badge">
+                Deadline: {{ task.deadline }}
+            </span>
+
+        </div>
+
+
+        <h2 class="matches-title">
+            👥 Recommended Employees
+        </h2>
+
+
+        {% if matches %}
+
+            <div class="employee-grid">
+
+                {% for match in matches %}
+
+                    <div class="employee-card">
+
+                        <div class="employee-name">
+
+                            {{ match.employee.user.first_name }}
+                            {{ match.employee.user.last_name }}
+
+                        </div>
+
+
+                        <div class="employee-info">
+
+                            {{ match.employee.department }}
+
+                        </div>
+
+
+                        <!-- MATCH SCORE -->
+
+                        <div class="match-score">
+
+                            <strong>
+                                {{ match.percentage }}%
+                            </strong>
+
+                            skill match
+
+                            <div class="progress-container">
+
+                                <div
+                                    class="progress-bar"
+                                    style="width: {{ match.percentage }}%;">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <p>
+                            <strong>
+                                Skills matched:
+                            </strong>
+
+                            {{ match.matched_skills }}
+                            / 
+                            {{ match.total_skills }}
+
+                        </p>
+
+
+                        <!-- EMPLOYEE SKILLS -->
+
+                        <div class="skills">
+
+                            {% for skill in match.employee.skills.all %}
+
+                                <span class="skill">
+                                    {{ skill.name }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- ASSIGN -->
+
+                        <a
+                            href="{% url 'assign_task' task.id match.employee.id %}"
+                            class="assign-btn">
+
+                            Assign Task
+
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="no-match">
+
+                <h3>
+                    😕 No matching employees found
+                </h3>
+
+                <p>
+                    No employee currently has the required skills for this task.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="footer">
+
+            <a href="{% url 'dashboard' %}">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

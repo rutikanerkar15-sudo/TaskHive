@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Change Requests - TaskHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">🐝 TaskHive</div>
+        <div class="nav-links">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'create_task' %}">Create Task</a>
+            <a href="{% url 'manager_tasks' %}">Tasks</a>
+            <a href="{% url 'manager_change_requests' %}">Change Requests</a>
+            <a href="{% url 'employee_list' %}">Employees</a>
+            <a href="{% url 'notification' %}">Notifications</a>
+            <a href="{% url 'logout' %}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Change Requests</h1>
+            <p>Deadline change requests waiting on your review.</p>
+        </div>
+
+        {% if change_requests %}
+        <div class="task-grid">
+            {% for cr in change_requests %}
+            <div class="task-card">
+
+                <h2>{{ cr.task.title }}</h2>
+
+                <span class="badge role">
+                    {{ cr.employee.user.get_full_name|default:cr.employee.user.username }}
+                </span>
+
+                <p class="description">
+                    {{ cr.reason }}
+                </p>
+
+                <p style="color: var(--cream-dim); font-size: 13.5px; margin-bottom: 8px;">
+                    Current deadline: {{ cr.task.deadline }}
+                </p>
+
+                {% if cr.requested_deadline %}
+                <p style="color: var(--honey); font-size: 13.5px; margin-bottom: 18px;">
+                    Requested deadline: {{ cr.requested_deadline }}
+                </p>
+                {% endif %}
+
+                <div style="display: flex; gap: 10px;">
+                    <a href="{% url 'review_change_request' cr.id 'approve' %}" class="btn action-btn">
+                        Approve
+                    </a>
+                    <a href="{% url 'review_change_request' cr.id 'reject' %}" class="btn action-btn" style="background: var(--danger); color: var(--cream);">
+                        Reject
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="no-match">
+            <p>No pending change requests right now.</p>
+        </div>
+        {% endif %}
+
+        <div class="footer">
+            <a href="{% url 'manager_tasks' %}">← Back to Tasks</a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
